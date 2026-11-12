@@ -1,0 +1,125 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Tic Tac Toe</title> 
+ 
+    <style> 
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            background: #222; 
+            color: white; 
+        } 
+ 
+        h1 { 
+            color: cyan; 
+        } 
+ 
+        .board { 
+            display: grid; 
+            grid-template-columns: repeat(3, 90px); 
+            gap: 5px; 
+            justify-content: center; 
+            margin: 25px; 
+        } 
+ 
+        .cell { 
+            width: 90px; 
+            height: 90px; 
+            font-size: 35px; 
+            font-weight: bold; 
+            background: white; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+        } 
+ 
+        .cell:hover { 
+            background: lightcyan; 
+        } 
+ 
+        #message { 
+            font-size: 22px; 
+            color: yellow; 
+        } 
+ 
+        button.reset { 
+            padding: 12px 25px; 
+            background: cyan; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+        } 
+    </style> 
+</head> 
+ 
+<body> 
+ 
+    <h1>TIC TAC TOE</h1> 
+ 
+    <h2 id="message">Player X's Turn</h2> 
+ 
+    <div class="board"> 
+        <button class="cell" onclick="play(0)"></button> 
+        <button class="cell" onclick="play(1)"></button> 
+        <button class="cell" onclick="play(2)"></button> 
+        <button class="cell" onclick="play(3)"></button> 
+        <button class="cell" onclick="play(4)"></button> 
+        <button class="cell" onclick="play(5)"></button> 
+        <button class="cell" onclick="play(6)"></button> 
+        <button class="cell" onclick="play(7)"></button> 
+        <button class="cell" onclick="play(8)"></button> 
+    </div> 
+ 
+    <button class="reset" onclick="resetGame()">Play Again</button> 
+ 
+    <script> 
+        let cells = document.querySelectorAll(".cell"); 
+        let message = document.getElementById("message"); 
+ 
+        let player = "X"; 
+        let gameOver = false; 
+ 
+        let wins = [ 
+            [0,1,2], [3,4,5], [6,7,8], 
+            [0,3,6], [1,4,7], [2,5,8], 
+            [0,4,8], [2,4,6] 
+        ]; 
+ 
+        function play(i) { 
+            if (cells[i].innerText !== "" || gameOver) { 
+                return; 
+            } 
+ 
+            cells[i].innerText = player; 
+ 
+            let winner = wins.some(pattern => 
+                pattern.every(index => 
+                    cells[index].innerText === player 
+                ) 
+            ); 
+ 
+            if (winner) { 
+                message.innerText = "Player " + player + " Wins! 🎉✨"; 
+                gameOver = true; 
+            } else if ([...cells].every(cell => cell.innerText !== "")) { 
+                message.innerText = "It's a Draw! ‼️🚫"; 
+                gameOver = true; 
+            } else { 
+                player = player === "X" ? "O" : "X"; 
+                message.innerText = "Player " + player + "'s Turn"; 
+            } 
+        } 
+ 
+        function resetGame() { 
+            cells.forEach(cell => cell.innerText = ""); 
+            player = "X"; 
+            gameOver = false; 
+            message.innerText = "Player X's Turn"; 
+        } 
+    </script> 
+ 
+</body> 
+</html> 
+ 
